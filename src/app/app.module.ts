@@ -6,23 +6,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './core/layout/navbar/navbar.component';
-import { MotivosService } from './pages/motivos/motivos.service';
+import { CoreModule } from './core/core.module';
 import { PrimeNGModule } from './primeng.module';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
-  imports: [BrowserModule,
-    BrowserAnimationsModule, 
-    AppRoutingModule, 
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
     HttpClientModule,
     PrimeNGModule,
+    CoreModule,
     NgxSpinnerModule
   ],
-  providers: [
-    MotivosService
-  ],
+  providers: [],
   bootstrap: [AppComponent],
-  exports: [NavbarComponent]
+  exports: []
 })
-export class AppModule {}
+export class AppModule { }

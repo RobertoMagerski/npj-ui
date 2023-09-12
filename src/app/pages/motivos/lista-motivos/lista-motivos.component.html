@@ -4,11 +4,11 @@
       <div class="flex justify-content-between mb-2">
         <div class="flex justify-content-start mb-2">
           <div>
-            <button pButton pRipple type="button" class="p-button-raised" icon="pi pi-plus" pTooltip="Novo"
+            <button pButton pRipple type="button" class="p-button-raised p-button-warning" icon="pi pi-plus" pTooltip="Novo"
               tooltipPosition="top" routerLink="/motivos/novo" ></button>
           </div>
           <div>
-            <button pButton pRipple type="button" class="p-button-raised p-button-primary ml-2" pTooltip="Atualizar"
+            <button pButton pRipple type="button" class="p-button-raised p-button-warning  ml-2" pTooltip="Atualizar"
               tooltipPosition="top" icon="pi pi-refresh" (click)="refresh()"></button>
           </div>
         </div>
@@ -61,7 +61,7 @@
         </ng-template>
         <ng-template pTemplate="summary">
           <div>
-            <button pButton pRipple class="p-button-raised  p-button-primary" icon="pi pi-times" label="Limpar Filtros"
+            <button pButton pRipple class="p-button-raised  p-button-warning" icon="pi pi-times" label="Limpar Filtros"
               (click)="onClear()"></button>
           </div>
         </ng-template>
