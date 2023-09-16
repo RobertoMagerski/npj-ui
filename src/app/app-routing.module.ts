@@ -8,6 +8,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/motivos/motivos.module').then((m) => m.MotivosModule),
   },
+  {
+    path:'clientes',
+    loadChildren: () => import ('./pages/clientes/clientes.module').then(m => m.ClientesModule)
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

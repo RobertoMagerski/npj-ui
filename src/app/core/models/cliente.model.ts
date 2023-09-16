@@ -1,4 +1,6 @@
 export class Clientes {
     id?: string;
-    q
+    nome?: string;
+    descricao?: string;
+    status?: boolean;
 }

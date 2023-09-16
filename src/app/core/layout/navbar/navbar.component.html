@@ -7,11 +7,11 @@
 
 <p-sidebar [(visible)]="sibebar">
    <div class="flex flex-wrap">
+       <div class="col-12">
+           <p-button  styleClass="p-button-outlined w-full" label="Clientes" routerLink="/clientes" (click)="sibebar = false" ></p-button>
+       </div>
     <div class="col-12">
         <p-button  styleClass="p-button-outlined w-full" label="Motivos" routerLink="/motivos" (click)="sibebar = false" ></p-button>
-    </div>
-    <div class="col-12">
-        <p-button  styleClass="p-button-outlined w-full" label="Varas" routerLink="/varas" (click)="sibebar = false" ></p-button>
     </div>
    </div>
 </p-sidebar>
