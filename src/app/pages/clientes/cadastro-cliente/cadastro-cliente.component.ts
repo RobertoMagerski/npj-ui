@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
-import { Motivos } from 'src/app/core/models/motivos.model';
+import { PrimeNGModule } from 'src/app/primeng.module';
+import {
+  ConfirmEventType,
+  ConfirmationService,
+  MessageService,
+} from 'primeng/api';
 import { Regex } from 'src/app/core/validators/regex.model';
 import { ClientesService } from '../clientes.service';
 import { Clientes } from 'src/app/core/models/cliente.model';
+
 @Component({
   selector: 'app-cadastro-cliente',
   templateUrl: './cadastro-cliente.component.html',
-  styleUrls: ['./cadastro-cliente.component.css']
+  styleUrls: ['./cadastro-cliente.component.css'],
 })
-export class CadastroClienteComponent implements OnInit {
-
+export class CadastroClienteComponent {
   regex = new Regex();
   newcliente = new Clientes();
   idcliente: string;
   salvando: boolean;
+  value: string | undefined;
 
   constructor(
     private clienteService: ClientesService,
@@ -27,10 +32,9 @@ export class CadastroClienteComponent implements OnInit {
     private router: Router,
     private title: Title,
     private confirmation: ConfirmationService,
-    private spinner: NgxSpinnerService
-    // private errorHandler: ErrorHandlerService,
-    // public auth: AuthService,
-  ) { }
+    private spinner: NgxSpinnerService, // private errorHandler: ErrorHandlerService,
+  ) // public auth: AuthService,
+  {}
 
   ngOnInit() {
     this.idcliente = this.route.snapshot.params['id'];
@@ -50,7 +54,7 @@ export class CadastroClienteComponent implements OnInit {
 
   salvar(form: NgForm) {
     if (this.editando) {
-      this.atualizarCliente(form);
+      this.atualizarClientes(form);
     } else {
       this.adicionarCliente(form);
     }
@@ -64,26 +68,26 @@ export class CadastroClienteComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Cliente',
-          detail: `${obj.descricao}, adicionado com sucesso!`,
+          detail: `${obj.logradouro}, adicionado com sucesso!`,
         });
         this.salvando = false;
-        this.router.navigate(['/motivos']);
+        this.router.navigate(['/clientes']);
       })
       .catch((erro) => {
         this.salvando = false;
         // this.errorHandler.handle(erro);
       });
   }
-  atualizarCliente(form: NgForm) {
+  atualizarClientes(form: NgForm) {
     this.salvando = true;
     this.clienteService
       .atualizarClientes(this.newcliente)
-      .then((obj: Motivos) => {
+      .then((obj) => {
         this.newcliente = obj;
         this.messageService.add({
           severity: 'info',
-          summary: 'Motivo',
-          detail: `${obj.descricao}, alterado com sucesso!`,
+          summary: 'Cliente',
+          detail: `${obj.nome}, alterado com sucesso!`,
         });
         this.atualizarTituloEdicao();
         this.salvando = false;
@@ -109,12 +113,12 @@ export class CadastroClienteComponent implements OnInit {
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de Cliente: ${this.newcliente.descricao}`);
+    this.title.setTitle(`Edição de Cliente: ${this.newcliente.nome}`);
   }
 
   confirmarExclusao() {
     this.confirmation.confirm({
-      message: `Tem certeza que deseja excluir: <b>${this.newcliente.descricao}</b> ?`,
+      message: `Tem certeza que deseja excluir: <b>${this.newcliente.nome}</b> ?`,
       accept: () => {
         this.excluir(this.idcliente);
       },
@@ -146,7 +150,7 @@ export class CadastroClienteComponent implements OnInit {
         this.messageService.add({
           severity: 'warn',
           summary: 'Cliente',
-          detail: `${this.newcliente.descricao}, excluído com sucesso!`,
+          detail: `${this.newcliente.nome}, excluído com sucesso!`,
         });
         this.router.navigate(['/clientes']);
       })
@@ -155,4 +159,3 @@ export class CadastroClienteComponent implements OnInit {
       });
   }
 }
-
