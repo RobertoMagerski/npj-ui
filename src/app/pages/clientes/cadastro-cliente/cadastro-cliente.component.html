@@ -1,0 +1,431 @@
+<main>
+  <p-card styleClass="card-adjust">
+    <h4>{{ editando ? "EDIÇÃO DE" : "CADASTRO DE" }} CLIENTE</h4>
+    <div class="flex justify-content-start mb-2">
+      <div>
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-raised p-button-warning"
+          icon="pi pi-caret-left"
+          pTooltip="Voltar"
+          tooltipPosition="top"
+          routerLink="/clientes"
+        ></button>
+      </div>
+    </div>
+    <br />
+    <form
+      #formCliente="ngForm"
+      autocomplete="off"
+      (ngSubmit)="salvar(formCliente)"
+    >
+      <div class="grid">
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Nome</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="nome"
+            type="text"
+            placeholder="Digite seu nome"
+            [pKeyFilter]="regex.string"
+            [(ngModel)]="newcliente.nome"
+            #nome="ngModel"
+            [disabled]="editando"
+            minlength="3"
+            maxlength="30"
+            required
+          />
+
+          <app-message
+            [control]="nome"
+            error="required"
+            text="Informe o seu nome"
+          ></app-message>
+          <app-message
+            [control]="nome"
+            error="minlength"
+            text="Mínimo de {{
+              nome.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Cpf</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="cpf"
+            type="text"
+            mask="000.000.000-00"
+            placeholder="Informe o CPF"
+            [pKeyFilter]="regex.blockSpecial"
+            [(ngModel)]="newcliente.cpf"
+            #cpf="ngModel"
+            [disabled]="editando"
+            minlength="11"
+            maxlength="14"
+            aria-describedby="cpf"
+            required
+          />
+
+          <app-message
+            [control]="cpf"
+            error="required"
+            text="Informe o seu cpf"
+          ></app-message>
+          <app-message
+            [control]="cpf"
+            error="minlength"
+            text="Mínimo de {{
+              cpf.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Rg</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="rg"
+            type="text"
+            mask="00.000.000-0"
+            placeholder="Informe o RG"
+            [pKeyFilter]="regex.blockSpecial"
+            [(ngModel)]="newcliente.rg"
+            #rg="ngModel"
+            [disabled]="editando"
+            minlength="7"
+            maxlength="12"
+            required
+          />
+
+          <app-message
+            [control]="rg"
+            error="required"
+            text="Informe o seu rg"
+          ></app-message>
+          <app-message
+            [control]="rg"
+            error="minlength"
+            text="Mínimo de {{
+              rg.errors?.minlength?.requiredLength
+            }}X caracteres"
+          ></app-message>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Cep</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="cep"
+            type="text"
+            mask="00000-000"
+            placeholder="Informe o CEP"
+            handlerChange
+            (blur)="getCep()"
+            [pKeyFilter]="regex.blockSpecial"
+            [(ngModel)]="newcliente.cep"
+            #cep="ngModel"
+            [disabled]="editando"
+            minlength="8"
+            maxlength="10"
+            required
+          >
+
+          <app-message
+            [control]="cep"
+            error="required"
+            text="Informe o seu cep"
+          ></app-message>
+          <app-message
+            [control]="cep"
+            error="minlength"
+            text="Mínimo de {{
+              cep.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Logradouro</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="logradouro"
+            type="text"
+            [pKeyFilter]="regex.stringEspecial"
+            [(ngModel)]="newcliente.logradouro"
+            #logradouro="ngModel"
+            minlength="3"
+            maxlength="25"
+            required
+            disabled
+          />
+          <!-- [disabled]="editando"  -->
+
+
+          <app-message
+            [control]="logradouro"
+            error="required"
+            text="Informe o seu logradouro"
+          ></app-message>
+          <app-message
+            [control]="logradouro"
+            error="minlength"
+            text="Mínimo de {{
+              logradouro.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Bairro</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="bairro"
+            type="text"
+            [pKeyFilter]="regex.stringEspecial"
+            [(ngModel)]="newcliente.bairro"
+            #bairro="ngModel"
+            minlength="3"
+            maxlength="20"
+            required
+            disabled
+          />
+          <!-- [disabled]="editando"  -->
+          
+
+          <app-message
+            [control]="bairro"
+            error="required"
+            text="Informe o seu bairro"
+          ></app-message>
+          <app-message
+            [control]="bairro"
+            error="minlength"
+            text="Mínimo de {{
+              bairro.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Numero</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="numero"
+            type="text"
+            [pKeyFilter]="regex.number"
+            [(ngModel)]="newcliente.numero"
+            #numero="ngModel"
+            minlength="1"
+            maxlength="8"
+            required
+          />
+          <!-- [disabled]="editando"  -->
+
+          <app-message
+            [control]="numero"
+            error="required"
+            text="Informe o seu numero"
+          ></app-message>
+          <app-message
+            [control]="numero"
+            error="minlength"
+            text="Mínimo de {{
+              numero.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span></span>Complemento</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="complemento"
+            type="text"
+            [pKeyFilter]="regex.stringEspecial"
+            [(ngModel)]="newcliente.complemento"
+            #complemento="ngModel"
+            [disabled]="editando"
+            minlength="0"
+            maxlength="255"
+          />
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Cidade</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="cidade"
+            type="text"
+            [pKeyFilter]="regex.stringEspecial"
+            [(ngModel)]="newcliente.localidade"
+            #localidade="ngModel"
+            minlength="3"
+            maxlength="30"
+            required
+            disabled
+          />
+          <!-- [disabled]="editando"  -->
+          <app-message
+            [control]="localidade"
+            error="required"
+            text="Informe o seu cidade"
+          ></app-message>
+          <app-message
+            [control]="localidade"
+            error="minlength"
+            text="Mínimo de {{
+              localidade.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>UF</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="uf"
+            type="text"
+            [pKeyFilter]="regex.string"
+            [(ngModel)]="newcliente.uf"
+            #uf="ngModel"
+            minlength="2"
+            maxlength="2"
+            required
+            disabled
+          />
+          <!-- [disabled]="editando"  -->
+          <app-message
+            [control]="uf"
+            error="required"
+            text="Informe o seu uf"
+          ></app-message>
+          <app-message
+            [control]="uf"
+            error="minlength"
+            text="Mínimo de {{
+              uf.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <h6><span class="obrigatorio">*</span>Whatsapp</h6>
+          <!--TODO Forma de input uppercase sem diretiva -->
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            oninput="this.value = this.value.toUpperCase()"
+            pInputText
+            name="whatsapp"
+            type="text"
+            mask="(00) 0 0000-0000"
+            placeholder="(99) 9 9999-9999"
+            [pKeyFilter]="regex.stringEspecial"
+            [(ngModel)]="newcliente.whatsapp"
+            #whatsapp="ngModel"
+            [disabled]="editando"
+            
+            minlength="9"
+            maxlength="16"
+            required
+            
+          />
+
+          <app-message
+            [control]="whatsapp"
+            error="required"
+            text="Informe o seu whatsapp"
+          ></app-message>
+          <app-message
+            [control]="whatsapp"
+            error="minlength"
+            text="Mínimo de {{
+              whatsapp.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
+        </div>
+      </div>
+      <div class="flex justify-content-center">
+        <div class="flex align-items-center justify-content-center">
+          <h6>Status</h6>
+        </div>
+      </div>
+      <div class="flex justify-content-center">
+        <div class="flex align-items-center justify-content-center">
+          <p-inputSwitch
+            [(ngModel)]="newcliente.status"
+            name="status"
+            [ngModelOptions]="{ standalone: true }"
+            binary="true"
+          >
+          </p-inputSwitch>
+        </div>
+      </div>
+      <br />
+      <div class="flex flex-wrap justify-content-center">
+        <div class="col-12 md:col-6 lg:col-4">
+          <button
+            pButton
+            pRipple
+            type="submit"
+            label="Salvar"
+            icon="fas fa-save"
+            [disabled]="formCliente.invalid || salvando"
+            class="p-button-raised p-button-warning w-full"
+          ></button>
+        </div>
+        <!-- <div class="col-12 md:col-6 lg:col-4">
+          <button pButton pRipple type="button" class="p-button-outlined p-button-primary w-full" icon="fas fa-trash"
+            pTooltip="Excluir" tooltipPosition="top"
+            (click)="confirmarExclusao()" label="Excluir"></button>
+        </div> -->
+      </div>
+      <div *ngIf="salvando" class="grid justify-content-center mt-4">
+        <div class="grid col-12 justify-content-center">
+          <p-progressSpinner
+            [style]="{ width: '50px', height: '50px' }"
+            styleClass="custom-spinner"
+            strokeWidth="8"
+            animationDuration=".5s"
+          >
+          </p-progressSpinner>
+        </div>
+        <div class="grid col-12 justify-content-center">
+          <h6>Salvando aguarde...</h6>
+        </div>
+      </div>
+    </form>
+  </p-card>
+</main>
