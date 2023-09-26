@@ -183,65 +183,67 @@ export class CadastroClienteComponent {
   //   }
   // }
     //  Api ViaCep
-  getCep() {
-    const url = `https://viacep.com.br/ws/${this.newcliente.cep}/json/`
-    const resultRegex = this.regexNumeros.test(this.newcliente.cep);
+  // getCep() {
+  //   const url = `https://viacep.com.br/ws/${this.newcliente.cep}/json/`
+  //   const resultRegex = this.regexNumeros.test(this.newcliente.cep);
 
-    if (this.newcliente.cep.length !== 8 || resultRegex === false) {
-      this.clearInputs();
-    } else {
-      fetch(url)
-        .then((response) => response.json())
-        .then((endereco) => {
-          if (endereco.erro === true) {
-            alert("Digite um CEP válido");
-            this.clearInputs();
-          } else {
-            // Preencha as informações do cliente
-            this.newcliente.localidade = endereco.localidade;
-            this.newcliente.uf = endereco.uf;
-            this.newcliente.logradouro = endereco.logradouro;
-            this.newcliente.bairro = endereco.bairro;
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }
+  //   if (this.newcliente.cep.length !== 8 || resultRegex === false) {
+  //     this.clearInputs();
+  //   } else {
+  //     fetch(url)
+  //       .then((response) => response.json())
+  //       .then((endereco) => {
+  //         if (endereco.erro === true) {
+  //           alert("Digite um CEP válido");
+  //           this.clearInputs();
+  //         } else {
+  //           // Preencha as informações do cliente
+  //           this.newcliente.localidade = endereco.localidade;
+  //           this.newcliente.uf = endereco.uf;
+  //           this.newcliente.logradouro = endereco.logradouro;
+  //           this.newcliente.bairro = endereco.bairro;
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }
 
 
 // Teste apibrasil: Está Passando a api mais não passa a informação para os inputs
-// getCep() {
-//   const cep = this.newcliente.cep;
+getCep() {
+  const cep = this.newcliente.cep;
   
-//   this.clienteService.consultaCEP(cep).subscribe(
-//     (endereco: any) => {
-//       if (endereco.erro) {
-//         alert('CEP não encontrado. Por favor, verifique o CEP.');
-//       } else {
-//         // Preencha as informações do cliente com os dados da API
-//             this.newcliente.uf = endereco.uf;
-//             this.newcliente.logradouro = endereco.logradouro;
-//             this.newcliente.bairro = endereco.bairro;
-//       }
-//           },
-//           (error: any) => {
-//             console.error(error);
-//           }
-//         );
-//       }
-//     }
+  this.clienteService.consultaCEP(cep).subscribe(
+    (endereco: any) => {
+      if (endereco.erro) {
+        alert('CEP não encontrado. Por favor, verifique o CEP.');
+      } else {
+        // Preencha as informações do cliente com os dados da API
+        this.newcliente.logradouro = endereco.street;
+            this.newcliente.uf = endereco.state;
+            this.newcliente.bairro = endereco.neighborhood;
+            this.newcliente.localidade = endereco.city
+      }
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+      }
+    }
+    
       
 
-  clearInputs() {
-    this.newcliente = {}; // Limpa as informações do cliente
-    this.newcliente.cep = '';
-  }
+  // clearInputs() {
+  //   this.newcliente = {}; // Limpa as informações do cliente
+  //   this.newcliente.cep = '';
+  // }
 
 
-  handlerChange(event: any) {
-    console.log(this.newcliente.whatsapp);
-    console.log(this.newcliente.cep);
-  }
-}
+//   // handlerChange(event: any) {
+//   //   console.log(this.newcliente.whatsapp);
+//   //   console.log(this.newcliente.cep);
+//   // }
+// }

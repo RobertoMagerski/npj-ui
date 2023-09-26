@@ -175,7 +175,8 @@
             minlength="3"
             maxlength="25"
             required
-            disabled
+            placeholder="Informe sua rua"
+
           />
           <!-- [disabled]="editando"  -->
 
@@ -209,7 +210,7 @@
             minlength="3"
             maxlength="20"
             required
-            disabled
+            placeholder="Informe seu bairro"
           />
           <!-- [disabled]="editando"  -->
           
@@ -243,6 +244,7 @@
             minlength="1"
             maxlength="8"
             required
+            placeholder="Informe seu número"
           />
           <!-- [disabled]="editando"  -->
 
@@ -293,13 +295,13 @@
             minlength="3"
             maxlength="30"
             required
-            disabled
+            placeholder="Informe sua cidade"
           />
           <!-- [disabled]="editando"  -->
           <app-message
             [control]="localidade"
             error="required"
-            text="Informe o seu cidade"
+            text="Informe a sua cidade"
           ></app-message>
           <app-message
             [control]="localidade"
@@ -324,7 +326,6 @@
             minlength="2"
             maxlength="2"
             required
-            disabled
           />
           <!-- [disabled]="editando"  -->
           <app-message
@@ -351,7 +352,7 @@
             name="whatsapp"
             type="text"
             mask="(00) 0 0000-0000"
-            placeholder="(99) 9 9999-9999"
+            placeholder="Informe seu Whatsapp"
             [pKeyFilter]="regex.stringEspecial"
             [(ngModel)]="newcliente.whatsapp"
             #whatsapp="ngModel"
